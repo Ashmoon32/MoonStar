@@ -9,7 +9,7 @@
 <body>
     <h1>Upload a new video</h1>
 
-    <form action="/videos" method="POST">
+    <form action="/videos" method="POST" enctype="multipart/form-data">
     @csrf
     <div>
         <label>Video Title:</label><br>
@@ -26,11 +26,14 @@
         @enderror
     </div>
     <div>
-        <label>File Path (temporary):</label><br>
-        <input type="text" name="file_path">
+        <label>Select Video File:</label><br>
+        <input type="file" name="video_file">
+        @error('file_path')
+            <p style="color: red;">{{ $message }}</p>
+        @enderror
     </div>
     <br>
-    <button type="submit">Save Video</button>
+    <button type="submit">Upload Video</button>
     </form>
 </body>
 </html>

@@ -17,6 +17,7 @@
                 <strong>{{  $video->title }}</strong> <br>
                 {{ $video->description }} <br> 
                 <small>Path: {{ $video->file_path }}</small>
+                <a href="/videos/{{ $video->id }}">View</a>
             </li>
             <hr>
         @endforeach

@@ -9,5 +9,13 @@
 <body>
     <h1>{{ $video->title }}</h1>
     <p>{{ $video->description }}</p>
+
+    <video height="360" width="640" controls>
+        <source src="{{ asset('storage/' . $video->file_path) }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <br>
+    <a href="/videos">Back to Gallery</a>
 </body>
 </html>

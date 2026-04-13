@@ -26,14 +26,18 @@ class VideoController extends Controller
         $request->validate([
             'title' => 'required|min:3|max:255',
             'description' => 'required',
-            'file_path' => 'required',
+            'video_file' => 'required|file|mimetypes:video/mp4,video/mpeg,video/quicktime|max:20000',
         ]);
+
+        if ($request->hasFile('video_file')) {
+            $path = $request->file('video_file')->store('videos', 'public');
+        }
 
         $video = new Video();
 
         $video->title = $request->title;
         $video->description = $request->description;
-        $video->file_path = $request->file_path;
+        $video->file_path = $path;
 
         $video->save();
 
