@@ -39,6 +39,12 @@ class VideoController extends Controller
         $video->description = $request->description;
         $video->file_path = $path;
 
+        if (auth()->check()) {
+            $video->user_id = auth()->id;
+        } else {
+            return redirect('/login');
+        }
+
         $video->save();
 
         return redirect('/videos');

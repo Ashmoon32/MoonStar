@@ -18,6 +18,7 @@
                 {{ $video->description }} <br> 
                 <small>Path: {{ $video->file_path }}</small>
                 <a href="/videos/{{ $video->id }}">View</a>
+                <p>Uploaded by: {{ $video->user->name }}</p>
             </li>
             <hr>
         @endforeach
