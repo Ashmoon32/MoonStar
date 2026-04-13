@@ -8,6 +8,18 @@
 </head>
 <body>
     <h1>Welcome to our <b><i>MoonStar</i></b>, <br>Video Streaming Application..</h1>
-    <p>Explore our <a href="/videos">Videos</a></p>
+    
+    <h3>All Videos</h3>
+
+    <ul>
+        @foreach ($videos as $video )
+            <li>
+                <strong>{{  $video->title }}</strong> <br>
+                {{ $video->description }} <br> 
+                <small>Path: {{ $video->file_path }}</small>
+            </li>
+            <hr>
+        @endforeach
+    </ul>
 </body>
 </html>
