@@ -39,4 +39,13 @@ class VideoController extends Controller
 
         return redirect('/videos');
     }
+
+    public function show($id)
+    {
+        $video = Video::findOrFail($id);
+
+        return view('videos.show', [
+            'video' => $video
+        ]);
+    }
 }

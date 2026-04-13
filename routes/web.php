@@ -11,3 +11,5 @@ Route::get('/videos/create', [VideoController::class, 'create']);
 Route::post('/videos', [VideoController::class, 'store']);
 
 Route::get('/videos', [VideoController::class, 'index']);
+
+Route::get('/videos/{id}', [VideoController::class, 'show']);
