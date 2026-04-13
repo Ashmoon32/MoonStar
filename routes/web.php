@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/videos/create', [VideoController::class, 'create']);
-    Route::post('/videos/{id}', [VideoController::class, 'store']);
+    Route::post('/videos', [VideoController::class, 'store']);
 });
 
 Route::get('/videos', [VideoController::class, 'index']);
