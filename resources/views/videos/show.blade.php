@@ -5,6 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $video->title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        video {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #388bcf;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            color: #388bcf;
+        }
+
+        p {
+            color: #666;
+        }
+
+        video {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #388bcf;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
 </head>
 <body>
     <h1>{{ $video->title }}</h1>

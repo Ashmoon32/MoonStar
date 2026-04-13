@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+{{-- Just commenting out the old code for learning purposes. --}} 
+
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,4 +26,33 @@
         @endforeach
     </ul>
 </body>
-</html>
+</html> --}}
+
+{{--  ======================================================================================================== --}}
+
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('All Videos') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <a href="/videos/create" class="text-blue-500 underline">Upload New Video</a>
+                <hr class="my-4">
+                <br>
+
+                @foreach ($videos as $video )
+                    <div class="mb-4">
+                        <h3 class="text-lg font-bold">{{ $video->title }}</h3>
+                        <p>Uploaded by: {{ $video->user->name }}</p>
+                        <a href="/videos/{{ $video->id }}" class="text-blue-500">Watch Now</a>
+                    </div>
+                @endforeach
+                    
+            </div>
+        </div>
+    </div>
+</x-app-layout>
