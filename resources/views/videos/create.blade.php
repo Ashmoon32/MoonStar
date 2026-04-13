@@ -13,12 +13,17 @@
     @csrf
     <div>
         <label>Video Title:</label><br>
-        <input type="text" name="title">
+        <input type="text" name="title" value="{{ old('title') }}">
+        @error('title')
+            <p style="color: red;">{{ $message }}</p>
+        @enderror
     </div>
     <div>
         <label>Description:</label><br>
-        <textarea name="description"></textarea>
-        
+        <textarea name="description">{{ old('description') }}</textarea>
+        @error('description')
+            <p style="color: red;">{{ $message }}</p>
+        @enderror
     </div>
     <div>
         <label>File Path (temporary):</label><br>

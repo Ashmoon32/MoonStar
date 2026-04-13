@@ -22,6 +22,13 @@ class VideoController extends Controller
 
     public function store(Request $request)
     {
+
+        $request->validate([
+            'title' => 'required|min:3|max:255',
+            'description' => 'required',
+            'file_path' => 'required',
+        ]);
+
         $video = new Video();
 
         $video->title = $request->title;
