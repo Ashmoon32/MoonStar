@@ -14,4 +14,22 @@ class VideoController extends Controller
             "videos" => $allvideos
         ]);
     }
+
+    public function create()
+    {
+        return view('videos.create');
+    }
+
+    public function store(Request $request)
+    {
+        $video = new Video();
+
+        $video->title = $request->title;
+        $video->description = $request->description;
+        $video->file_path = $request->file_path;
+
+        $video->save();
+
+        return redirect('/videos');
+    }
 }
