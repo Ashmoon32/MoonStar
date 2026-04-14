@@ -21,6 +21,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/videos/create', [VideoController::class, 'create']);
     Route::post('/videos', [VideoController::class, 'store']);
+    Route::get('/videos/{id}/edit', [VideoController::class, 'edit']);
+    Route::put('/videos/{id}', [VideoController::class, 'update']);
+    Route::delete('/videos/{id}', [VideoController::class, 'destroy']);
 });
 
 Route::get('/videos', [VideoController::class, 'index']);

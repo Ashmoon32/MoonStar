@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Video;
+use Symfony\Component\Translation\Catalogue\AbstractOperation;
+use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
@@ -34,8 +36,12 @@ class VideoController extends Controller
 
         if ($request->hasFile('video_file')) {
             $videoPath = $request->file('video_file')->store('videos', 'public');
-            $fullVideoPath = storage_path('app/public/' . $videoPath);
 
+            if (!Storage::disk('public')->exists('thumbnails')) {
+                Storage::disk('public')->makeDirectory('thumbnails');
+            }
+
+            $fullVideoPath = storage_path('app/public/' . $videoPath);
             $thumbnailName = 'thumbnails/' . pathinfo($videoPath, PATHINFO_FILENAME) . '.jpg';
             $fullThumbnailPath = storage_path('app/public/' . $thumbnailName);
 
@@ -43,8 +49,6 @@ class VideoController extends Controller
                 $ffmpeg = \FFMpeg\FFMpeg::create([
                     'ffmpeg.binaries' => env('FFMPEG_BINARIES'),
                     'ffprobe.binaries' => env('FFPROBE_BINARIES'),
-                    'timeout' => 3600,
-                    'ffmpeg.threads' => 12,
                 ]);
 
                 $video = $ffmpeg->open($fullVideoPath);
@@ -79,5 +83,59 @@ class VideoController extends Controller
         return view('videos.show', [
             'video' => $video
         ]);
+    }
+
+    public function edit($id)
+    {
+        $video = Video::findOrFail($id);
+
+        if ($video->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        return view('videos.edit', compact('video'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $video = Video::findOrFail($id);
+
+        if ($video->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'title' => 'required|min:3',
+            'description' => 'required',
+        ]);
+
+        $video->update([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        return redirect('/videos')->with('status', 'Video updated!');
+    }
+
+    public function destroy($id)
+    {
+        $video = Video::FindorFail($id);
+
+        if ($video->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $filesToDelete = array_filter([
+            $video->file_path,
+            $video->thumbnail_path,
+        ]);
+
+        if (!empty($filesToDelete)) {
+            \Storage::disk('public')->delete($filesToDelete);
+        }
+
+        $video->delete();
+
+        return redirect('/videos')->with('status', 'Video deleted forever!');
     }
 }
