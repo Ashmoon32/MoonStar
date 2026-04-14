@@ -50,6 +50,7 @@
                         <p>Uploaded by: {{ $video->user->name }}</p>
                         <a href="/videos/{{ $video->id }}" class="text-blue-500">Watch Now</a>
                     </div>
+                    <hr>
                 @endforeach
                     
             </div>
