@@ -30,14 +30,29 @@ class VideoController extends Controller
         ]);
 
         if ($request->hasFile('video_file')) {
-            $path = $request->file('video_file')->store('videos', 'public');
+            $videoPath = $request->file('video_file')->store('videos', 'public');
+            $fullVideoPath = storage_path('app/public' . $videoPath);
+
+            $thumbnailName = 'thumbnails/' . pathinfo($videoPath, PATHINFO_FILENAME) . '.jpg';
+            $fullThumbnailPath = storage_path('app/public/' . $thumbnailName);
+
+            $ffmpeg = \FFMpeg\FFMpeg::create([
+                'ffmpeg.binaries' => env('FFMPEG_BINARIES'),
+                'ffprobe.binaries' => env('FFPROBE_BINARIES'),
+                'timeout' => 3600,
+                'ffmpeg.threads' => 12,
+            ]);
+
+            $video = $ffmpeg->open($fullVideoPath);
+            $video->frame(\FFMpeg\Coordinate\TimeCode::fromSeconds(1))
+                ->save($fullThumbnailPath);
         }
 
         $video = new Video();
 
         $video->title = $request->title;
         $video->description = $request->description;
-        $video->file_path = $path;
+        $video->file_path = $videoPath;
 
         if (auth()->check()) {
             $video->user_id = auth()->id();
